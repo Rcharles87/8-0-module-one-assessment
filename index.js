@@ -151,9 +151,10 @@ function findById(movies, id){
 function filterByGenre(movies, genre) {
   let genreFilter = []
   for (let movie of movies){
-    if(movie.genre.includes(genre))
+    if(movie.genre.toLowerCase().includes(genre.toLowerCase())){
     genreFilter.push(movie)
   }
+}
   return genreFilter
 }
 // filterByGenre(exampleMovies, "Mystery")
@@ -182,13 +183,14 @@ function filterByGenre(movies, genre) {
 function getAllMoviesReleasedAtOrBeforeYear(movies, number) {
   let releaseArr =[]
   for(let movie of movies){
-    // if (!movies){
-    //   releaseArr.push(movie)
-    // }
+    let year = movie.released.split(" ")
+    if (year[2] <= number){
+      releaseArr.push(movie)
+    }
   }
   return releaseArr
 }
-
+getAllMoviesReleasedAtOrBeforeYear(exampleMovies, 2000)
 /**
  * getBiggestBoxOfficeMovie()
  * -----------------------------
@@ -201,9 +203,19 @@ function getAllMoviesReleasedAtOrBeforeYear(movies, number) {
  *  //> "Incredibles 2"
  */
 function getBiggestBoxOfficeMovie(movies) {
-  // let 
+  let biggest = 0
+  let title = null
+  for (let movie of movies){
+    let boxMod = Number(movie.boxOffice.slice(1).split(",").join(""))
+    if(boxMod > biggest){
+      biggest = boxMod
+      title = movie.title
+    }
+  }
+  return title
+  
 }
-
+getBiggestBoxOfficeMovie(exampleMovies)
 // Do not change anything below this line.
 module.exports = {
   getAllMovieTitles,
